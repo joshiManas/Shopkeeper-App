@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, useState } from "react-redux";
 import CustomerRow from "./CustomerRow";
 import Table from "react-bootstrap/Table";
 
@@ -9,7 +9,7 @@ const Customer = () => {
     <div className="flex-fill px-5">
       <h2 className="text-center text-primary">Customer details</h2>
       <Table bordered>
-        <thead className="table-light">
+        <thead className="table-light text-center">
           <tr>
             <th>Name</th>
             <th>Items</th>

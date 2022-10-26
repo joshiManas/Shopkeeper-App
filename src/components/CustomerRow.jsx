@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 import {
   setCurrentSelected,
-  deleteCustomer,
+  setShowModal,
 } from "../features/customer/customerSlice";
 
 function CustomerRow({ customer }) {
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    dispatch(deleteCustomer(id));
+    dispatch(setShowModal({ action: true, customerId: id }));
   };
 
   const handleUpdate = (id) => {
@@ -28,10 +28,10 @@ function CustomerRow({ customer }) {
           onClick={() => handleUpdate(customer.id)}
           className="me-1"
         >
-          Edit
+          <AiFillEdit />
         </Button>
         <Button variant="danger" onClick={() => handleDelete(customer.id)}>
-          Delete
+          <AiFillDelete />
         </Button>
       </td>
     </tr>

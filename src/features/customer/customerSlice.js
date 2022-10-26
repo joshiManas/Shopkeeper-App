@@ -18,6 +18,10 @@ const initialState = {
     },
   ],
   selectedCustomerId: null,
+  showModal: {
+    action: false,
+    customerId: null,
+  },
 };
 
 const CustomerSlice = createSlice({
@@ -47,6 +51,9 @@ const CustomerSlice = createSlice({
       });
       state.customerList[indeX] = action.payload;
     },
+    setShowModal: (state, action) => {
+      state.showModal = action.payload;
+    },
   },
 });
 
@@ -56,4 +63,5 @@ export const {
   deleteCustomer,
   setCurrentSelected,
   updateCustomer,
+  setShowModal,
 } = CustomerSlice.actions;
