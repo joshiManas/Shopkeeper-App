@@ -1,12 +1,12 @@
-import Customer from "./components/Customer";
-import Form from "./components/Form";
+import CustomerTable from "./components/CustomerTable.jsx";
 import "./App.css";
+import UserForm from "./components/UserForm.jsx";
 
 const App = () => {
   return (
-    <div className='vh-100 d-flex justify-content-around pt-5 flex-wrap'>
-      <Customer />
-      <Form />
+    <div className="vh-100 d-flex justify-content-around align-items-start pt-5 flex-wrap">
+      <CustomerTable />
+      <UserForm />
     </div>
   );
 };

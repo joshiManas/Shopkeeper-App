@@ -28,16 +28,32 @@ const CustomerSlice = createSlice({
       state.customerList.push(action.payload);
     },
     deleteCustomer: (state, action) => {
-      state.customerList.forEach((customer) => {
-        if (customer.id == action.payload) customer.deleted = true;
+      let indeX = null;
+      state.customerList.forEach((customer, index) => {
+        if (customer.id == action.payload) indeX = index;
       });
+      state.customerList[indeX].deleted = true;
     },
     setCurrentSelected: (state, action) => {
       state.selectedCustomerId = action.payload;
+    },
+    updateCustomer: (state, action) => {
+      let indeX;
+      state.customerList.forEach((c, index) => {
+        if (c.id == action.payload.id) {
+          indeX = index;
+          return;
+        }
+      });
+      state.customerList[indeX] = action.payload;
     },
   },
 });
 
 export default CustomerSlice.reducer;
-export const { addCustomer, deleteCustomer, setCurrentSelected } =
-  CustomerSlice.actions;
+export const {
+  addCustomer,
+  deleteCustomer,
+  setCurrentSelected,
+  updateCustomer,
+} = CustomerSlice.actions;
