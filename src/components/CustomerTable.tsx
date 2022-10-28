@@ -1,9 +1,14 @@
-import { useSelector, useDispatch, useState } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import CustomerRow from "./CustomerRow";
 import Table from "react-bootstrap/Table";
 
+import { CustomerType, GlobalState } from "./types";
+
 const Customer = () => {
-  const customers = useSelector((state) => state.customer.customerList);
+  const customers = useSelector(
+    (state: GlobalState): CustomerType[] => state.customer.customerList
+  );
 
   return (
     <div className="flex-fill px-5">

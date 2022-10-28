@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import React, { Dispatch } from "react";
+import { CustomerState } from "../../components/types";
 
-const initialState = {
+/* type ActionType = {
+  type: string;
+  payload: number;
+}; */
+
+const initialState: CustomerState = {
   customerList: [
     {
       id: 1,
@@ -28,30 +35,32 @@ const CustomerSlice = createSlice({
   name: "customer",
   initialState,
   reducers: {
-    addCustomer: (state, action) => {
+    addCustomer: (state: CustomerState, action) => {
+      console.log(action);
       state.customerList.push(action.payload);
     },
-    deleteCustomer: (state, action) => {
-      let indeX = null;
+
+    deleteCustomer: (state: CustomerState, action) => {
       state.customerList.forEach((customer, index) => {
-        if (customer.id == action.payload) indeX = index;
-      });
-      state.customerList[indeX].deleted = true;
-    },
-    setCurrentSelected: (state, action) => {
-      state.selectedCustomerId = action.payload;
-    },
-    updateCustomer: (state, action) => {
-      let indeX;
-      state.customerList.forEach((c, index) => {
-        if (c.id == action.payload.id) {
-          indeX = index;
-          return;
+        if (customer.id == action.payload) {
+          state.customerList[index].deleted = true;
         }
       });
-      state.customerList[indeX] = action.payload;
     },
-    setShowModal: (state, action) => {
+
+    setCurrentSelected: (state: CustomerState, action) => {
+      state.selectedCustomerId = action.payload;
+    },
+
+    updateCustomer: (state: CustomerState, action) => {
+      state.customerList.forEach((c, index) => {
+        if (c.id == action.payload.id) {
+          state.customerList[index] = action.payload;
+        }
+      });
+    },
+
+    setShowModal: (state: CustomerState, action) => {
       state.showModal = action.payload;
     },
   },

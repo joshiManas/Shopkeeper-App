@@ -6,16 +6,19 @@ import {
   setShowModal,
   deleteCustomer,
 } from "../features/customer/customerSlice";
+import { GlobalState } from "./types";
 
-function DeleteModal() {
-  const show = useSelector((state) => state.customer.showModal.action);
-  const id = useSelector((state) => state.customer.showModal.customerId);
+const DeleteModal = () => {
+  let { action: show, customerId: id } = useSelector(
+    (state: GlobalState) => state.customer.showModal
+  );
 
   const dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(setShowModal({ action: false, customerId: null }));
   };
+
   const handleDelete = () => {
     dispatch(deleteCustomer(id));
     dispatch(setShowModal({ action: false, customerId: null }));
@@ -39,6 +42,6 @@ function DeleteModal() {
       </Modal>
     </>
   );
-}
+};
 
 export default DeleteModal;

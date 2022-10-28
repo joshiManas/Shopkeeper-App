@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
@@ -9,36 +10,37 @@ import {
   updateCustomer,
   setCurrentSelected,
 } from "../features/customer/customerSlice";
+import { CustomerState, CustomerType, GlobalState } from "./types";
 
 const UserForm = () => {
   const { customerList: customers, selectedCustomerId } = useSelector(
-    (state) => state.customer
+    (state: GlobalState): CustomerState => state.customer
   );
   const dispatch = useDispatch();
 
   // refrences for dom nodes
-  const fnameRef = useRef("");
-  const lnameRef = useRef("");
-  const itemsRef = useRef("");
-  const amountRef = useRef("");
+  const fnameRef = useRef<HTMLInputElement>(null!);
+  const lnameRef = useRef<HTMLInputElement>(null!);
+  const itemsRef = useRef<HTMLInputElement>(null!);
+  const amountRef = useRef<HTMLInputElement>(null!);
 
   // refilling the form when user clicks on edit button
   useEffect(() => {
     if (selectedCustomerId) {
-      const customer = customers.find(
-        (customer) => customer.id == selectedCustomerId
-      );
-      const fullname = customer.name.split(" ");
-      fnameRef.current.value = fullname[0];
-      lnameRef.current.value = fullname[1];
-      itemsRef.current.value = customer.items;
-      amountRef.current.value = customer.amount;
+      const customer = customers.find((c) => c.id == selectedCustomerId);
+      if (customer) {
+        const fullname = customer.name.split(" ");
+        fnameRef.current.value = fullname[0];
+        lnameRef.current.value = fullname[1];
+        itemsRef.current.value = String(customer.items);
+        amountRef.current.value = String(customer.amount);
+      }
     }
   }, [selectedCustomerId]);
 
   // handles form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent): void => {
+    event.preventDefault();
 
     // if selectedCustomerId exists that means we are upadating the customer
     if (selectedCustomerId) {
@@ -111,7 +113,7 @@ const UserForm = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
-              type="text"
+              type="number"
               placeholder="total items..."
               ref={itemsRef}
             />
@@ -125,7 +127,7 @@ const UserForm = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
-              type="text"
+              type="number"
               placeholder="total amount..."
               ref={amountRef}
             />
