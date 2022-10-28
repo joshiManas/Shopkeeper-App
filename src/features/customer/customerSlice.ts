@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import React, { Dispatch } from "react";
-import { CustomerState } from "../../components/types";
+import { CustomerState, CustomerType } from "../../components/types";
 
 /* type ActionType = {
   type: string;
@@ -15,6 +14,7 @@ const initialState: CustomerState = {
       items: 10,
       amount: 555,
       deleted: false,
+      display: true,
     },
     {
       id: 2,
@@ -22,6 +22,7 @@ const initialState: CustomerState = {
       items: 5,
       amount: 296,
       deleted: false,
+      display: true,
     },
   ],
   selectedCustomerId: null,
@@ -63,6 +64,19 @@ const CustomerSlice = createSlice({
     setShowModal: (state: CustomerState, action) => {
       state.showModal = action.payload;
     },
+
+    searchCustomer: (state: CustomerState, action) => {
+      if (action.payload == "") {
+        state.customerList.forEach((c) => {
+          c.display = true;
+        });
+        return;
+      }
+      state.customerList.forEach((c) => {
+        const index = c.name.search(action.payload);
+        if (index < 0) c.display = false;
+      });
+    },
   },
 });
 
@@ -73,4 +87,5 @@ export const {
   setCurrentSelected,
   updateCustomer,
   setShowModal,
+  searchCustomer,
 } = CustomerSlice.actions;

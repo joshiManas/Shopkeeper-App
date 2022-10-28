@@ -4,6 +4,7 @@ export type CustomerType = {
   items: number;
   amount: number;
   deleted: true | false;
+  display: boolean;
 };
 
 export type CustomerState = {

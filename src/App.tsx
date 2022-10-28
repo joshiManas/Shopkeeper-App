@@ -6,7 +6,7 @@ import UserForm from "./components/UserForm";
 
 const App = (): JSX.Element => {
   return (
-    <div className="vh-100 d-flex justify-content-around align-items-start pt-5 flex-wrap bg-light">
+    <div className="vh-100 d-flex flex-wrap justify-content-around align-items-start pt-5 flex-wrap bg-light">
       <CustomerTable />
       <UserForm />
       <DeleteModal />

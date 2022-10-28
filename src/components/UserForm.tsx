@@ -51,6 +51,7 @@ const UserForm = () => {
         items: itemsRef.current.value,
         amount: amountRef.current.value,
         delete: false,
+        display: true,
       };
       dispatch(updateCustomer(updatedCustomer));
       // setting the current selected customer to null again
@@ -63,6 +64,7 @@ const UserForm = () => {
         items: itemsRef.current.value,
         amount: amountRef.current.value,
         delete: false,
+        display: true,
       };
       dispatch(addCustomer(newCustomer));
     }
@@ -88,6 +90,7 @@ const UserForm = () => {
               type="text"
               placeholder="type your first name..."
               ref={fnameRef}
+              required
             />
           </Col>
         </Form.Group>
@@ -102,6 +105,7 @@ const UserForm = () => {
               type="text"
               placeholder="type your last name..."
               ref={lnameRef}
+              required
             />
           </Col>
         </Form.Group>
@@ -116,6 +120,8 @@ const UserForm = () => {
               type="number"
               placeholder="total items..."
               ref={itemsRef}
+              required
+              min="1"
             />
           </Col>
         </Form.Group>
@@ -130,6 +136,8 @@ const UserForm = () => {
               type="number"
               placeholder="total amount..."
               ref={amountRef}
+              required
+              min="1"
             />
           </Col>
         </Form.Group>
