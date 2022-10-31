@@ -1,19 +1,21 @@
 export type CustomerType = {
   id: number;
   name: string;
-  items: number;
-  amount: number;
-  deleted: true | false;
+  items: string;
+  amount: string;
+  deleted: boolean;
   display: boolean;
+};
+
+export type ModalType = {
+  action: boolean;
+  customerId: number | null;
 };
 
 export type CustomerState = {
   customerList: CustomerType[];
   selectedCustomerId: number | null;
-  showModal: {
-    action: boolean;
-    customerId: number | null;
-  };
+  showModal: ModalType;
 };
 
 export type GlobalState = {

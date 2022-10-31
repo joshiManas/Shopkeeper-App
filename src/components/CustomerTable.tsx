@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import CustomerRow from "./CustomerRow";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
-
 import { CustomerType, GlobalState } from "./types";
 import { searchCustomer } from "../features/customer/customerSlice";
 
@@ -14,7 +13,7 @@ const Customer = () => {
   const dispatch = useDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const query = event.target.value;
+    const query = event.target.value.toLowerCase();
     dispatch(searchCustomer(query));
   };
 

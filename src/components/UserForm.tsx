@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
@@ -13,16 +13,16 @@ import {
 import { CustomerState, CustomerType, GlobalState } from "./types";
 
 const UserForm = () => {
+  /* ************* STATES FOR OUR FORM INPUTS ********* */
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [items, setItems] = useState("");
+  const [amount, setAmount] = useState("");
+
   const { customerList: customers, selectedCustomerId } = useSelector(
     (state: GlobalState): CustomerState => state.customer
   );
   const dispatch = useDispatch();
-
-  // refrences for dom nodes
-  const fnameRef = useRef<HTMLInputElement>(null!);
-  const lnameRef = useRef<HTMLInputElement>(null!);
-  const itemsRef = useRef<HTMLInputElement>(null!);
-  const amountRef = useRef<HTMLInputElement>(null!);
 
   // refilling the form when user clicks on edit button
   useEffect(() => {
@@ -30,28 +30,32 @@ const UserForm = () => {
       const customer = customers.find((c) => c.id == selectedCustomerId);
       if (customer) {
         const fullname = customer.name.split(" ");
-        fnameRef.current.value = fullname[0];
-        lnameRef.current.value = fullname[1];
-        itemsRef.current.value = String(customer.items);
-        amountRef.current.value = String(customer.amount);
+        setFname(fullname[0]);
+        setLname(fullname[1]);
+        setItems(customer.items);
+        setAmount(customer.amount);
       }
     }
   }, [selectedCustomerId]);
 
-  // handles form submit
+  /* *********** HANDLES FORM SUBMIT  **************** */
   const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
+
+    const customer = {
+      name: fname.toLowerCase() + " " + lname.toLowerCase(),
+      items: items,
+      amount: amount,
+      delete: false,
+      display: true,
+    };
 
     // if selectedCustomerId exists that means we are upadating the customer
     if (selectedCustomerId) {
       console.log("updating user...");
       let updatedCustomer = {
         id: selectedCustomerId,
-        name: fnameRef.current.value + " " + lnameRef.current.value,
-        items: itemsRef.current.value,
-        amount: amountRef.current.value,
-        delete: false,
-        display: true,
+        ...customer,
       };
       dispatch(updateCustomer(updatedCustomer));
       // setting the current selected customer to null again
@@ -60,20 +64,16 @@ const UserForm = () => {
       console.log("adding new user...");
       const newCustomer = {
         id: customers.length + 1,
-        name: fnameRef.current.value + " " + lnameRef.current.value,
-        items: itemsRef.current.value,
-        amount: amountRef.current.value,
-        delete: false,
-        display: true,
+        ...customer,
       };
       dispatch(addCustomer(newCustomer));
     }
 
     // clearing the form
-    fnameRef.current.value = "";
-    lnameRef.current.value = "";
-    itemsRef.current.value = "";
-    amountRef.current.value = "";
+    setFname("");
+    setLname("");
+    setItems("");
+    setAmount("");
   };
 
   return (
@@ -81,7 +81,7 @@ const UserForm = () => {
       <h2 className="text-center text-primary mb-4">Add/Edit Customer List</h2>
       <Form onSubmit={handleSubmit} className="w-50 mx-auto">
         {/* FIRST NAME  */}
-        <Form.Group as={Row} className="mb-3" controlId="formBasicFirstName">
+        <Form.Group as={Row} className="mb-3" controlId="firstname">
           <Form.Label column sm={2}>
             First Name
           </Form.Label>
@@ -89,14 +89,15 @@ const UserForm = () => {
             <Form.Control
               type="text"
               placeholder="type your first name..."
-              ref={fnameRef}
               required
+              value={fname}
+              onChange={(e) => setFname(e.target.value)}
             />
           </Col>
         </Form.Group>
 
         {/* LAST NAME  */}
-        <Form.Group as={Row} className="mb-3" controlId="formBasicLasttName">
+        <Form.Group as={Row} className="mb-3" controlId="lastname">
           <Form.Label column sm={2}>
             Last Name
           </Form.Label>
@@ -104,14 +105,15 @@ const UserForm = () => {
             <Form.Control
               type="text"
               placeholder="type your last name..."
-              ref={lnameRef}
               required
+              value={lname}
+              onChange={(e) => setLname(e.target.value)}
             />
           </Col>
         </Form.Group>
 
         {/* ITEMS  */}
-        <Form.Group as={Row} className="mb-3" controlId="formBasicItems">
+        <Form.Group as={Row} className="mb-3" controlId="items">
           <Form.Label column sm={2}>
             Items
           </Form.Label>
@@ -119,15 +121,16 @@ const UserForm = () => {
             <Form.Control
               type="number"
               placeholder="total items..."
-              ref={itemsRef}
               required
+              value={items}
+              onChange={(e) => setItems(e.target.value)}
               min="1"
             />
           </Col>
         </Form.Group>
 
         {/* AMOUNT  */}
-        <Form.Group as={Row} className="mb-3" controlId="formBasicAmount">
+        <Form.Group as={Row} className="mb-3" controlId="amount">
           <Form.Label column sm={2}>
             Amount
           </Form.Label>
@@ -135,8 +138,9 @@ const UserForm = () => {
             <Form.Control
               type="number"
               placeholder="total amount..."
-              ref={amountRef}
               required
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
               min="1"
             />
           </Col>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import {
@@ -22,6 +22,7 @@ const CustomerRow = ({ customer }: CustomerRowProps): JSX.Element => {
   const handleUpdate = (id: number): void => {
     dispatch(setCurrentSelected(id));
   };
+
   return (
     <tr className="text-center">
       <td>{customer.name}</td>

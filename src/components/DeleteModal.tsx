@@ -6,11 +6,11 @@ import {
   setShowModal,
   deleteCustomer,
 } from "../features/customer/customerSlice";
-import { GlobalState } from "./types";
+import { GlobalState, ModalType } from "./types";
 
 const DeleteModal = () => {
   let { action: show, customerId: id } = useSelector(
-    (state: GlobalState) => state.customer.showModal
+    (state: GlobalState): ModalType => state.customer.showModal
   );
 
   const dispatch = useDispatch();
