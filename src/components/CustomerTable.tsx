@@ -1,16 +1,13 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import CustomerRow from "./CustomerRow";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
-import { CustomerType, GlobalState } from "./types";
 import { searchCustomer } from "../features/customer/customerSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 const Customer = () => {
-  const customers = useSelector(
-    (state: GlobalState): CustomerType[] => state.customer.customerList
-  );
-  const dispatch = useDispatch();
+  const customers = useAppSelector((state) => state.customer.customerList);
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const query = event.target.value.toLowerCase();

@@ -1,19 +1,17 @@
-import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
   setShowModal,
   deleteCustomer,
 } from "../features/customer/customerSlice";
-import { GlobalState, ModalType } from "./types";
 
 const DeleteModal = () => {
-  let { action: show, customerId: id } = useSelector(
-    (state: GlobalState): ModalType => state.customer.showModal
+  let { action: show, customerId: id } = useAppSelector(
+    (state) => state.customer.showModal
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     dispatch(setShowModal({ action: false, customerId: null }));

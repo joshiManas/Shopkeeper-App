@@ -6,7 +6,7 @@ import {
   setCurrentSelected,
   setShowModal,
 } from "../features/customer/customerSlice";
-import { CustomerType } from "./types";
+import type { CustomerType } from "../features/customer/customerSlice";
 
 type CustomerRowProps = {
   customer: CustomerType;

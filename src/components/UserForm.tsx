@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,7 +9,7 @@ import {
   updateCustomer,
   setCurrentSelected,
 } from "../features/customer/customerSlice";
-import { CustomerState, CustomerType, GlobalState } from "./types";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 const UserForm = () => {
   /* ************* STATES FOR OUR FORM INPUTS ********* */
@@ -19,10 +18,10 @@ const UserForm = () => {
   const [items, setItems] = useState("");
   const [amount, setAmount] = useState("");
 
-  const { customerList: customers, selectedCustomerId } = useSelector(
-    (state: GlobalState): CustomerState => state.customer
+  const { customerList: customers, selectedCustomerId } = useAppSelector(
+    (state) => state.customer
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // refilling the form when user clicks on edit button
   useEffect(() => {
@@ -39,14 +38,14 @@ const UserForm = () => {
   }, [selectedCustomerId]);
 
   /* *********** HANDLES FORM SUBMIT  **************** */
-  const handleSubmit = (event: React.FormEvent): void => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
     const customer = {
       name: fname.toLowerCase() + " " + lname.toLowerCase(),
       items: items,
       amount: amount,
-      delete: false,
+      deleted: false,
       display: true,
     };
 
