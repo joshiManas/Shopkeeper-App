@@ -1,5 +1,5 @@
 import React from "react";
-import CustomerRow from "./CustomerRow";
+import CustomerRow from "@components/CustomerRow";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import { searchCustomer } from "../features/customer/customerSlice";
