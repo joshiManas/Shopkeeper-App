@@ -89,6 +89,8 @@ const UserForm = () => {
               type="text"
               placeholder="type your first name..."
               required
+              minLength={3}
+              maxLength={30}
               value={fname}
               onChange={(e) => setFname(e.target.value)}
             />
@@ -105,6 +107,8 @@ const UserForm = () => {
               type="text"
               placeholder="type your last name..."
               required
+              minLength={3}
+              maxLength={30}
               value={lname}
               onChange={(e) => setLname(e.target.value)}
             />
@@ -121,9 +125,9 @@ const UserForm = () => {
               type="number"
               placeholder="total items..."
               required
+              min="1"
               value={items}
               onChange={(e) => setItems(e.target.value)}
-              min="1"
             />
           </Col>
         </Form.Group>
@@ -138,9 +142,9 @@ const UserForm = () => {
               type="number"
               placeholder="total amount..."
               required
+              min="1"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              min="1"
             />
           </Col>
         </Form.Group>

@@ -7,12 +7,19 @@ import {
   setShowModal,
 } from "../features/customer/customerSlice";
 import type { CustomerType } from "../features/customer/customerSlice";
+import { Row } from "react-table";
+import { Data } from "./CustomerTable";
+
+/* type CustomerRowProps = {
+  customer: CustomerType;
+}; */
 
 type CustomerRowProps = {
-  customer: CustomerType;
+  rows: Row<Data>[];
+  prepareRow: (row: Row<Data>) => void;
 };
 
-const CustomerRow = ({ customer }: CustomerRowProps): JSX.Element => {
+const CustomerRow = ({ rows, prepareRow }: CustomerRowProps) => {
   const dispatch = useDispatch();
 
   const handleDelete = (id: number): void => {
@@ -24,26 +31,40 @@ const CustomerRow = ({ customer }: CustomerRowProps): JSX.Element => {
   };
 
   return (
-    <tr className="text-center">
-      <td>{customer.name}</td>
-      <td>{customer.items}</td>
-      <td>{customer.amount}</td>
-      <td>
-        <Button
-          variant="primary"
-          onClick={() => handleUpdate(customer.id)}
-          className="me-1"
-        >
-          <AiFillEdit />
-        </Button>
-        <Button variant="danger" onClick={() => handleDelete(customer.id)}>
-          <AiFillDelete />
-        </Button>
-      </td>
-    </tr>
+    <>
+      {rows.map((row) => {
+        prepareRow(row);
+        return (
+          <tr {...row.getRowProps()} className="text-center">
+            {!row.original.deleted &&
+              row.original.display &&
+              row.cells.map((cell) => {
+                if (cell.column.Header == "Action")
+                  return (
+                    <td {...cell.getCellProps()}>
+                      <Button
+                        variant="primary"
+                        onClick={() => handleUpdate(row.original.id)}
+                        className="me-1"
+                      >
+                        <AiFillEdit />
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelete(row.original.id)}
+                      >
+                        <AiFillDelete />
+                      </Button>
+                    </td>
+                  );
+                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+              })}
+          </tr>
+        );
+      })}
+    </>
   );
 };
-
 export default CustomerRow;
 
 // react data table v7 onwards
