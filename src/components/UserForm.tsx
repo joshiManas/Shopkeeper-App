@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -12,12 +12,17 @@ import {
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 const UserForm = () => {
-  /* ************* STATES FOR OUR FORM INPUTS ********* */
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [items, setItems] = useState("");
-  const [amount, setAmount] = useState("");
+  const initialFormState = {
+    fname: "",
+    lname: "",
+    items: "",
+    amount: "",
+  };
 
+  /* ************* STATE FOR OUR FORM INPUTS ********* */
+  const [formData, setFormData] = useState(initialFormState);
+
+  /* GETTING CUSTOMERS FROM REDUX STORE */
   const { customerList: customers, selectedCustomerId } = useAppSelector(
     (state) => state.customer
   );
@@ -29,10 +34,12 @@ const UserForm = () => {
       const customer = customers.find((c) => c.id == selectedCustomerId);
       if (customer) {
         const fullname = customer.name.split(" ");
-        setFname(fullname[0]);
-        setLname(fullname[1]);
-        setItems(customer.items);
-        setAmount(customer.amount);
+        setFormData({
+          fname: fullname[0],
+          lname: fullname[1],
+          items: customer.items,
+          amount: customer.amount,
+        });
       }
     }
   }, [selectedCustomerId]);
@@ -42,9 +49,9 @@ const UserForm = () => {
     event.preventDefault();
 
     const customer = {
-      name: fname.toLowerCase() + " " + lname.toLowerCase(),
-      items: items,
-      amount: amount,
+      name: formData.fname.toLowerCase() + " " + formData.lname.toLowerCase(),
+      items: formData.items,
+      amount: formData.amount,
       deleted: false,
       display: true,
     };
@@ -69,10 +76,13 @@ const UserForm = () => {
     }
 
     // clearing the form
-    setFname("");
-    setLname("");
-    setItems("");
-    setAmount("");
+    setFormData(initialFormState);
+  };
+
+  /*  HANDLES INPUT CHANGE EVENT */
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -86,13 +96,14 @@ const UserForm = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
+              name="fname"
               type="text"
               placeholder="type your first name..."
               required
               minLength={3}
               maxLength={30}
-              value={fname}
-              onChange={(e) => setFname(e.target.value)}
+              value={formData.fname}
+              onChange={handleChange}
             />
           </Col>
         </Form.Group>
@@ -105,12 +116,13 @@ const UserForm = () => {
           <Col sm={10}>
             <Form.Control
               type="text"
+              name="lname"
               placeholder="type your last name..."
               required
               minLength={3}
               maxLength={30}
-              value={lname}
-              onChange={(e) => setLname(e.target.value)}
+              value={formData.lname}
+              onChange={handleChange}
             />
           </Col>
         </Form.Group>
@@ -123,11 +135,12 @@ const UserForm = () => {
           <Col sm={10}>
             <Form.Control
               type="number"
+              name="items"
               placeholder="total items..."
               required
               min="1"
-              value={items}
-              onChange={(e) => setItems(e.target.value)}
+              value={formData.items}
+              onChange={handleChange}
             />
           </Col>
         </Form.Group>
@@ -140,11 +153,12 @@ const UserForm = () => {
           <Col sm={10}>
             <Form.Control
               type="number"
+              name="amount"
               placeholder="total amount..."
               required
               min="1"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={formData.amount}
+              onChange={handleChange}
             />
           </Col>
         </Form.Group>
