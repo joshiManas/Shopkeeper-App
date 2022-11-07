@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -8,10 +8,10 @@ import {
   addCustomer,
   updateCustomer,
   setCurrentSelected,
-} from "../features/customer/customerSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+} from "features/customer/customerSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 
-const UserForm = () => {
+const CustomerDetailsInput = () => {
   const initialFormState = {
     fname: "",
     lname: "",
@@ -26,6 +26,7 @@ const UserForm = () => {
   const { customerList: customers, selectedCustomerId } = useAppSelector(
     (state) => state.customer
   );
+
   const dispatch = useAppDispatch();
 
   // refilling the form when user clicks on edit button
@@ -174,4 +175,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default CustomerDetailsInput;
