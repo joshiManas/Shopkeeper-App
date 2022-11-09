@@ -7,8 +7,7 @@ import {
   HeaderGroup,
 } from "react-table";
 import { Table } from "react-bootstrap";
-import CustomerRow from "../customer/CustomerRow";
-import { Data } from "../customer/CustomerList";
+import { Data } from "components/customer/CustomerList";
 
 type CustomTableProps = {
   rows: Row<Data>[];
@@ -39,7 +38,16 @@ const CustomTable = ({
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        <CustomerRow rows={rows} prepareRow={prepareRow} />
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()} className="text-center">
+              {row.cells.map((cell) => {
+                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+              })}
+            </tr>
+          );
+        })}
       </tbody>
     </Table>
   );
