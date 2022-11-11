@@ -8,8 +8,10 @@ import {
   addCustomer,
   updateCustomer,
   setCurrentSelected,
+  CustomerType,
 } from "features/customer/customerSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useFetch } from "custom hooks/useFetch";
 
 const CustomerDetailsInput = () => {
   const initialFormState = {
@@ -32,16 +34,21 @@ const CustomerDetailsInput = () => {
   // refilling the form when user clicks on edit button
   useEffect(() => {
     if (selectedCustomerId) {
-      const customer = customers.find((c) => c.id == selectedCustomerId);
-      if (customer) {
-        const fullname = customer.name.split(" ");
-        setFormData({
-          fname: fullname[0],
-          lname: fullname[1],
-          items: customer.items,
-          amount: customer.amount,
-        });
-      }
+      let customer: CustomerType;
+
+      fetch(`http://localhost:3000/customers/${selectedCustomerId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          customer = data;
+          const fullname = customer.name.split(" ");
+          setFormData({
+            fname: fullname[0],
+            lname: fullname[1],
+            items: customer.items,
+            amount: customer.amount,
+          });
+        })
+        .catch((err) => console.log(err));
     }
   }, [selectedCustomerId]);
 
@@ -88,11 +95,11 @@ const CustomerDetailsInput = () => {
 
   return (
     <div className="flex-fill">
-      <h2 className="text-center text-primary mb-4">Add/Edit Customer List</h2>
+      <h2 className="text-center mb-4 customTextColor">Create Customer</h2>
       <Form onSubmit={handleSubmit} className="w-50 mx-auto">
         {/* FIRST NAME  */}
         <Form.Group as={Row} className="mb-3" controlId="firstname">
-          <Form.Label column sm={2}>
+          <Form.Label column sm={2} className="text-light">
             First Name
           </Form.Label>
           <Col sm={10}>
@@ -111,7 +118,7 @@ const CustomerDetailsInput = () => {
 
         {/* LAST NAME  */}
         <Form.Group as={Row} className="mb-3" controlId="lastname">
-          <Form.Label column sm={2}>
+          <Form.Label column sm={2} className="text-light">
             Last Name
           </Form.Label>
           <Col sm={10}>
@@ -130,7 +137,7 @@ const CustomerDetailsInput = () => {
 
         {/* ITEMS  */}
         <Form.Group as={Row} className="mb-3" controlId="items">
-          <Form.Label column sm={2}>
+          <Form.Label column sm={2} className="text-light">
             Items
           </Form.Label>
           <Col sm={10}>
@@ -148,7 +155,7 @@ const CustomerDetailsInput = () => {
 
         {/* AMOUNT  */}
         <Form.Group as={Row} className="mb-3" controlId="amount">
-          <Form.Label column sm={2}>
+          <Form.Label column sm={2} className="text-light">
             Amount
           </Form.Label>
           <Col sm={10}>
@@ -166,8 +173,8 @@ const CustomerDetailsInput = () => {
 
         {/* UPDATE/ADD BTN  */}
         <div className="text-center">
-          <Button variant="primary" type="submit">
-            Update
+          <Button variant="dark" type="submit" className="px-4">
+            Add
           </Button>
         </div>
       </Form>

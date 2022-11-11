@@ -1,0 +1,36 @@
+{
+  "customers": [
+    {
+      "id": 1,
+      "name": "manas joshi",
+      "items": "10",
+      "amount": "555",
+      "deleted": false,
+      "display": true
+    },
+    {
+      "id": 2,
+      "name": "jack reacher",
+      "items": "5",
+      "amount": "296",
+      "deleted": false,
+      "display": true
+    },
+    {
+      "id": 3,
+      "name": "thor odinson",
+      "items": "3",
+      "amount": "555",
+      "deleted": false,
+      "display": true
+    },
+    {
+      "id": 4,
+      "name": "chris evans",
+      "items": "1",
+      "amount": "200",
+      "deleted": false,
+      "display": true
+    }
+  ]
+}

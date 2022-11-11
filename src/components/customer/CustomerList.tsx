@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { searchCustomer } from "features/customer/customerSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { Column, useTable } from "react-table";
@@ -9,7 +9,9 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import {
   setCurrentSelected,
   setShowModal,
+  setAllCustomers,
 } from "features/customer/customerSlice";
+import { useFetch } from "custom hooks/useFetch";
 
 export interface Data {
   name: string;
@@ -21,6 +23,13 @@ export interface Data {
 const Customer = () => {
   const customers = useAppSelector((state) => state.customer.customerList);
   const dispatch = useAppDispatch();
+
+  const { data: apiRes, loading } = useFetch("http://localhost:3000/customers");
+
+  useEffect(() => {
+    // console.log("api res", apiRes);
+    dispatch(setAllCustomers(apiRes));
+  }, [apiRes]);
 
   const COLUMNS: Column<Data>[] = [
     {
@@ -38,7 +47,6 @@ const Customer = () => {
     {
       Header: "Action",
       accessor: (props: Data) => {
-        console.log(props, typeof props);
         return (
           <>
             <Button
@@ -86,20 +94,24 @@ const Customer = () => {
 
   return (
     <div className="flex-fill px-5">
-      <h2 className="text-center text-primary">Customer details</h2>
+      <h2 className="text-center customTextColor">Customer details</h2>
       {/* SEARCH FIELD */}
       <CustomSearchBox
         handleChange={handleChange}
         placeholderText="search by name..."
       />
       {/* CUSTOMER TABLE  */}
-      <CustomTable
-        getTableProps={getTableProps}
-        getTableBodyProps={getTableBodyProps}
-        rows={rows}
-        prepareRow={prepareRow}
-        headerGroups={headerGroups}
-      />
+      {loading ? (
+        <p style={{ color: "white", fontSize: "2rem" }}>Loading...</p>
+      ) : (
+        <CustomTable
+          getTableProps={getTableProps}
+          getTableBodyProps={getTableBodyProps}
+          rows={rows}
+          prepareRow={prepareRow}
+          headerGroups={headerGroups}
+        />
+      )}
     </div>
   );
 };

@@ -6,7 +6,7 @@ import CustomerDetailsInput from "./components/customer/CustomerDetailsInput";
 
 const App = (): JSX.Element => {
   return (
-    <div className="vh-100 d-flex flex-wrap justify-content-around align-items-start pt-5 flex-wrap bg-light">
+    <div className="min-vh-100 d-flex flex-wrap justify-content-around align-items-start pt-5 flex-wrap box">
       <CustomerList />
       <CustomerDetailsInput />
       <CustomerDeleteModal

@@ -27,7 +27,7 @@ const CustomTable = ({
   rows,
 }: CustomTableProps) => {
   return (
-    <Table bordered {...getTableProps()}>
+    <Table bordered striped hover size="sm" variant="dark" {...getTableProps()}>
       <thead className="table-light text-center">
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>

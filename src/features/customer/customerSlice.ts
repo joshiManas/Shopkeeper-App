@@ -21,24 +21,7 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  customerList: [
-    {
-      id: 1,
-      name: "manas joshi",
-      items: "10",
-      amount: "555",
-      deleted: false,
-      display: true,
-    },
-    {
-      id: 2,
-      name: "jack reacher",
-      items: "5",
-      amount: "296",
-      deleted: false,
-      display: true,
-    },
-  ],
+  customerList: [],
   selectedCustomerId: null,
   showModal: {
     action: false,
@@ -50,6 +33,13 @@ const CustomerSlice = createSlice({
   name: "customer",
   initialState,
   reducers: {
+    setAllCustomers: (
+      state: InitialState,
+      action: PayloadAction<CustomerType[]>
+    ) => {
+      state.customerList = action.payload;
+    },
+
     addCustomer: (state: InitialState, action: PayloadAction<CustomerType>) => {
       state.customerList.push(action.payload);
     },
@@ -127,4 +117,5 @@ export const {
   updateCustomer,
   setShowModal,
   searchCustomer,
+  setAllCustomers,
 } = CustomerSlice.actions;

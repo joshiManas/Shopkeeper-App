@@ -3,3 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.box {
+  background: #3c4048;
+}
+
+.customTextColor {
+  color: #00abb3;
+}
