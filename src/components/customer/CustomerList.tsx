@@ -94,7 +94,7 @@ const Customer = () => {
 
   return (
     <div className="flex-fill px-5">
-      <h2 className="text-center customTextColor">Customer details</h2>
+      <h2 className="text-center customTextColor">Customer Details</h2>
       {/* SEARCH FIELD */}
       <CustomSearchBox
         handleChange={handleChange}
