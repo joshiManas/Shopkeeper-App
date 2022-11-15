@@ -71,6 +71,16 @@ const CustomerDetailsInput = () => {
         id: selectedCustomerId,
         ...customer,
       };
+      /* fetch(`http://localhost:3000/customers/${selectedCustomerId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCustomer),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data, "updated"))
+        .catch((err) => console.log(err)); */
       dispatch(updateCustomer(updatedCustomer));
       // setting the current selected customer to null again
       dispatch(setCurrentSelected(null));

@@ -33,51 +33,39 @@ const CustomerSlice = createSlice({
   name: "customer",
   initialState,
   reducers: {
-    setAllCustomers: (
-      state: InitialState,
-      action: PayloadAction<CustomerType[]>
-    ) => {
+    setAllCustomers: (state, action: PayloadAction<CustomerType[]>) => {
       state.customerList = action.payload;
     },
 
-    addCustomer: (state: InitialState, action: PayloadAction<CustomerType>) => {
+    addCustomer: (state, action: PayloadAction<CustomerType>) => {
       state.customerList.push(action.payload);
     },
 
-    deleteCustomer: (
-      state: InitialState,
-      action: PayloadAction<number | null>
-    ) => {
-      state.customerList.forEach((customer, index) => {
+    deleteCustomer: (state, action: PayloadAction<number | null>) => {
+      state.customerList.forEach((customer) => {
         if (customer.id == action.payload) {
-          state.customerList[index].deleted = true;
+          customer.deleted = true;
         }
       });
     },
 
-    setCurrentSelected: (
-      state: InitialState,
-      action: PayloadAction<number | null>
-    ) => {
+    setCurrentSelected: (state, action: PayloadAction<number | null>) => {
       state.selectedCustomerId = action.payload;
     },
 
-    updateCustomer: (
-      state: InitialState,
-      action: PayloadAction<CustomerType>
-    ) => {
-      state.customerList.forEach((c, index) => {
-        if (c.id == action.payload.id) {
+    updateCustomer: (state, action: PayloadAction<CustomerType>) => {
+      state.customerList.forEach((customer, index) => {
+        if (customer.id == action.payload.id) {
           state.customerList[index] = action.payload;
         }
       });
     },
 
-    setShowModal: (state: InitialState, action: PayloadAction<ModalType>) => {
+    setShowModal: (state, action: PayloadAction<ModalType>) => {
       state.showModal = action.payload;
     },
 
-    searchCustomer: (state: InitialState, action: PayloadAction<string>) => {
+    searchCustomer: (state, action: PayloadAction<string>) => {
       if (action.payload == "") {
         state.customerList.forEach((c) => {
           c.display = true;
